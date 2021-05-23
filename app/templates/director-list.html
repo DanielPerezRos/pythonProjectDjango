@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+    {% block title %}
+    <title>Directores list</title>
+    {% endblock %}
+
+{% block main %}
+<section class="container">
+
+<a class="btn btn-primary mt-5" href="/app/directores/save">Crear nuevo director</a>
+<table class="mt-5 table">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">nombre</th>
+      <th scope="col">apellidos</th>
+        <th scope="col">email</th>
+      <th scope="col">num películas</th>
+      <th scope="col">creation date</th>
+      <th scope="col">Casado</th>
+      <th scope="col">Salario</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for director in directores %}
+
+    <tr>
+      <th scope="row">{{ director.id }}</th>
+      <td>{{ director.first_name }}</td>
+      <td>{{ director.last_name }}</td>
+      <td>
+          <a href="mailto:{{ director.email }}">{{ director.email }}</a>
+      </td>
+      <td>{{ director.num_movies }}</td>
+      <td>{{ director.creation_date }}</td>
+      <td>
+          {% if director.married %}
+          <span class="badge bg-success">Sí</span>
+          {% else %}
+          <span class="badge bg-danger">No</span>
+          {% endif %}
+
+      </td>
+        <td>{{ director.salary }}</td>
+        <td>
+            <a class="btn btn-primary" href="{% url 'director_view' director.id %}">Ver</a>
+            <a class="btn btn-success" href="{% url 'director_load' director.id %}">Editar</a>
+            <a class="btn btn-danger" href="{% url 'director_delete' director.id %}">Borrar</a>
+
+        </td>
+    </tr>
+
+  {% endfor %}
+
+  </tbody>
+</table>
+</section>
+{% endblock %}
+

@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+
+    {% block title %}
+    <title>Director {{ movie.id }}</title>
+    {% endblock %}
+
+{% block main %}
+<section class="container">
+
+    {% if director.id %}
+        <h1>Editar autor {{ director.id }}</h1>
+    {% else %}
+        <h1>Crear nuevo autor</h1>
+    {% endif %}
+
+    <form action="{% url 'director_save' %}" method="post">
+    {% csrf_token %}
+        <div class="mb-3">
+            <input type="hidden" class="form-control" id="id" name="id"  value="{{ director.id }}">
+        </div>
+        <div class="mb-3">
+            <label for="first_name" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="first_name" name="first_name"  value="{{ director.first_name }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="last_name" class="form-label">Apellidos:</label>
+            <input type="text" class="form-control" id="last_name" name="last_name" value="{{ director.last_name }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="text" class="form-control" id="email" name="email" value="{{ director.email }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="num_movies" class="form-label">Num Películas:</label>
+            <input type="text" class="form-control" id="num_movies" name="num_movies" value="{{ director.num_movies }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="creation_date" class="form-label">Fecha de creación:</label>
+            <input type="text" class="form-control" id="creation_date" name="creation_date" value="{{ director.creation_date }}">
+        </div>
+
+        <div class="form-check">
+            {% if director.married %}
+          <input class="form-check-input" type="checkbox" id="married" name="married" checked>
+            {% else %}
+            <input class="form-check-input" type="checkbox" id="married" name="married">
+            {% endif %}
+
+          <label class="form-check-label" for="married">
+            Casado
+          </label>
+        </div>
+
+        <div class="mb-3">
+            <label for="salary" class="form-label">Salario:</label>
+            <input type="number" inputmode="decimal" step="0.01" class="form-control" id="salary" name="salary" value="{{ director.salary }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="year" class="form-label">Año:</label>
+            <input type="number" step="1" class="form-control" id="year" name="year" value="{{ director.biografia.year }}">
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Biografia</label>
+          <textarea class="form-control" id="description" name="description" rows="3">{{ director.biografia.description }}</textarea>
+        </div>
+
+
+
+        <label for="direction_id">Dirección del autor:
+            <select class="form-select form-select-sm" id="direction_id" name="direction_id">
+              <option></option>
+
+              {% for direction in directions %}
+                <option value="{{ direction.id }}" {% if director.direction_id == direction.id %} selected {% endif %}>{{ direction.street }}</option>
+              {% endfor %}
+
+
+            </select>
+        </label>
+
+        <hr>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <a class= "btn btn-primary" href="{% url 'director_list' %}">Volver al listado</a>
+        <a class= "btn btn-primary" href="/app/directores">Volver al listado desde edit</a>
+
+
+
+    </form>
+</section>
+{% endblock %}
+

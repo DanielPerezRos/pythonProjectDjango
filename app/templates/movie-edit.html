@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+    {% block title %}
+    <title>Movie {{ movie.id }}</title>
+    {% endblock %}
+
+{% block main %}
+<section class="container">
+    <form action="/app/movies/save" method="post">
+    {% csrf_token %}
+        <div class="mb-3">
+            <input type="hidden" class="form-control" id="id" name="id"  value="{{ movie.id }}">
+        </div>
+        <div class="mb-3">
+            <label for="isbn" class="form-label">ISBN</label>
+            <input type="text" class="form-control" id="isbn" name="isbn"  value="{{ movie.isbn }}" aria-describedby="emailHelp">
+        </div>
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Título</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ movie.title }}" aria-describedby="emailHelp">
+        </div>
+
+        <div class="mb-3">
+            <label for="year" class="form-label">Año</label>
+            <input type="text" class="form-control" id="year" name="year" value="{{ movie.year }}" aria-describedby="emailHelp">
+        </div>
+
+        <div class="form-check">
+            {% if movie.published %}
+          <input class="form-check-input" type="checkbox" id="published" name="published" checked>
+            {% else %}
+            <input class="form-check-input" type="checkbox" id="published" name="published">
+            {% endif %}
+          <label class="form-check-label" for="published">
+            Publicado
+          </label>
+        </div>
+
+        <div class="mb-3">
+            <label for="director" class="form-label">Director</label>
+            <input type="text" class="form-control" id="director" name="director" value="{{ movie.director }}" aria-describedby="emailHelp">
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <a class= "btn btn-primary" href="/app/movieslist">Volver al listado</a>
+
+    <div class="mb-3">
+                        <label for="director_id">
+                            Director
+                            <select class="form-select" id="director_id" name="director_id">
+                                <option>------------</option>
+
+                                {% for director in directors %}
+                                    <option value="{{ director.id }}" {% if movie.director_id == director.id %} selected {% endif %}>
+                                        {{ director.first_name }} {{ director.last_name }}
+                                    </option>
+                                {% endfor %}
+
+                            </select>
+                        </label>
+                    </div>
+
+    <div class="mb-3">
+        <label for="generos">
+            Generos
+            <select class="form-select" id="generos" name="generos" multiple>
+                <option>------------</option>
+
+                {% for genero in generos %}
+                    <option value="{{ genero.id }}" {% if genero in movie.generos.all %} selected {% endif %}>
+                        {{ genero.name }} {{ genero.color }}
+                    </option>
+                {% endfor %}
+
+            </select>
+        </label>
+    </div>
+
+
+
+    </form>
+</section>
+{% endblock %}
+

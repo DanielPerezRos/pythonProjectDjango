@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+    {% block title %}
+    <title>Director {{ movie.id }}</title>
+    {% endblock %}
+
+{% block main %}
+<section class="container">
+    <div class="alert alert-danger p-5 m-5" role="alert">
+        {{ error }}
+    </div>
+    <a class="btn btn-link" href="{% url 'movie-list' %}">Volver a inicio</a>
+</section>
+{% endblock %}
+

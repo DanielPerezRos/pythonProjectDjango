@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+    {% block title %}
+    <title>Movie {{ movie.id }}</title>
+    {% endblock %}
+
+{% block main %}
+<section class="container">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>ID:</strong> {{ movie.id }}</li>
+      <li class="list-group-item"><strong>ISBN:</strong> {{ movie.isbn }}</li>
+      <li class="list-group-item"><strong>Titulo:</strong> {{ movie.title }}</li>
+      <li class="list-group-item"><strong>Año:</strong> {{ movie.year }}</li>
+      <li class="list-group-item"><strong>Director:</strong> {{ movie.director }}</li>
+
+      <li class="list-group-item">
+                        <strong>Published:</strong>
+                        {% if movie.published  %}
+                            <span class="badge bg-success">Sí</span>
+                        {% else %}
+                            <span class="badge bg-danger">No</span>
+                        {% endif %}
+                    </li>
+
+
+      <li class="list-group-item">
+        <b>Acciones:</b>
+        <a class= "btn btn-success" href="{% url 'movie_load' movie.pk %}">Editar</a>
+        <a class= "btn btn-danger" href="{% url 'movie_delete' movie.pk %}">Borrar</a>
+        <a class= "btn btn-primary" href="/app/movieslist">Volver al listado</a>
+
+
+
+        </li>
+    </ul>
+
+    {% if movie.generos|length %}
+        <h3>Géneros</h3>
+        <ul>
+            <li>
+                {% for genero in movie.generos %}
+                    <span class="badge bg-primary">{{ genero.name }}</span>
+                {% endfor %}
+            </li>
+
+        </ul>
+    {% endif %}
+</section>
+{% endblock %}
+

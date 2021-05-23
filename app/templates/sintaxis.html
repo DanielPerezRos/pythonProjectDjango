@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+    {% block title %}
+    <title>Movie list</title>
+    {% endblock %}
+
+{% block main %}
+<section class="container">
+<h1 class="mt-5">{{ notification }}</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">isbn</th>
+      <th scope="col">Title</th>
+      <th scope="col">Year</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for movie in movies %}
+
+    {% if movie.year > 2000 %}
+    <tr>
+      <th scope="row">{{ movie.id }}</th>
+      <td>{{ movie.isbn }}</td>
+      <td>{{ movie.title }}</td>
+      <td>{{ movie.year }}</td>
+        <td>
+            <a class="btn btn-primary" href="#">Ver</a>
+            <a class="btn btn-success" href="#">Editar</a>
+            {% if admin %}
+            <a class="btn btn-danger" href="#">Borrar</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endif %}
+  {% endfor %}
+
+  </tbody>
+</table>
+</section>
+{% endblock %}
+

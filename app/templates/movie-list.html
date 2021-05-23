@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+    {% block title %}
+    <title>Movie list</title>
+    {% endblock %}
+
+{% block main %}
+<section class="container">
+<h1 class="mt-5">{{ notification }}</h1>
+
+    <div>
+        <form id="filtros" action="{% url 'movie_director_filter' %}" method="get">
+            <div class="mb-3">
+                <label for="director_id">
+                    Filtrar por Director
+                    <select class="form-select" id="director_id" name="director_id" >
+                        <option>------------</option>
+
+                        {% for director in directores %}
+                            <option value="{{ director.id }}">
+                                {{ director.first_name }} {{ director.last_name }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+                </label>
+                <button type="submit">Aplicar filtro</button>
+            </div>
+        </form>
+    </div>
+
+<a class="btn btn-primary" href="/app/movies/save">Crear nueva película</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">isbn</th>
+      <th scope="col">Title</th>
+      <th scope="col">Year</th>
+        <th scope="col">Director</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for movie in movies %}
+
+    {% if movie.year > 1900 %}
+    <tr>
+      <th scope="row">{{ movie.id }}</th>
+      <td>{{ movie.isbn }}</td>
+      <td>{{ movie.title }}</td>
+      <td>{{ movie.year }}</td>
+        <td>
+            {% if movie.director_id %}
+                <a class="btn btn-link" href="{% url 'director_view' movie.director_id %}">{{ movie.director.first_name }}</a>
+            {% else %}
+                <span class="badge bg-secondary ms-5"></span>
+            {% endif %}
+        </td>
+        <td>
+            <a class="btn btn-primary" href="{% url 'movie_view' movie.id %}">Ver</a>
+            <a class="btn btn-success" href="{% url 'movie_load' movie.id %}"">Editar</a>
+            {% if admin %}
+            <a class="btn btn-danger" href="/app/movies/{{ movie.pk }}/delete">Borrar</a>
+            <a class="btn btn-danger" href="{% url 'movie_delete' movie.pk %}">Borrar2</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endif %}
+  {% endfor %}
+
+  </tbody>
+</table>
+</section>
+{% endblock %}
+
